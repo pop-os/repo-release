@@ -46,7 +46,7 @@ done
 function repo_pull {
     echo -e "\n\e[1mPulling...\e[0m"
 
-    mkdir -pv build
+    mkdir -p build
 
     echo "set base_path $(realpath build)" > build/mirror.list
     echo "set nthreads 64" >> build/mirror.list
@@ -132,9 +132,27 @@ function repo_sync {
 function repo_build {
     echo -e "\e[1mBuilding...\e[0m"
 
-    rm -fv build/release.tar
-    mkdir -pv build/release.partial
+    # Remove previous release data
+    rm -rf build/release build/release.partial build/release.tar.partial
 
+    # Create directory for previous repo
+    mkdir -p build/release
+
+    # Extract previous version of repo
+    if [ -f build/release.tar ]
+    then
+        set -x
+        tar \
+            --extract \
+            --directory build/release \
+            --file build/release.tar
+        set +x
+    fi
+
+    # Create temporary directory for updates
+    mkdir -p build/release.partial
+
+    # Copy according to sync file
     cat sync | while read line
     do
         if [[ "$line" == "#"* ]]
@@ -182,16 +200,16 @@ function repo_build {
         fi
 
         partial_pool="build/release.partial/pool/${dist}/${repo}"
-        mkdir -pv "$(dirname "${partial_pool}")"
+        mkdir -p "$(dirname "${partial_pool}")"
         if [ "${release}" == "${version}" ]
         then
             echo "    Version '${version}' already in release"
-            cp -av "${release_pool}" "${partial_pool}"
+            cp -a "${release_pool}" "${partial_pool}"
         else
             if [ "${staging}" == "${version}" ]
             then
                 echo "    Copying '${version}' from staging to release"
-                cp -av "${staging_pool}" "${partial_pool}"
+                cp -a "${staging_pool}" "${partial_pool}"
             else
                 echo "    Failed to find '${version}' in staging or release" >&2
                 exit 1
@@ -199,9 +217,12 @@ function repo_build {
         fi
     done
 
-    pushd build/release.partial
+    # Remove previous release dir
+    rm -rf build/release
 
+    # Create repo metadata
     #TODO: Use DISTS?
+    pushd build/release.partial
     for dist_pool in pool/*
     do
         dist="$(basename "${dist_pool}")"
@@ -217,19 +238,19 @@ function repo_build {
         esac
 
         dists_dir="dists/${dist}"
-        mkdir -pv "${dists_dir}"
+        mkdir -p "${dists_dir}"
 
         # TODO: Use COMPONENTS?
         comp="main"
         comp_dir="${dists_dir}/${comp}"
-        mkdir -pv "${comp_dir}"
+        mkdir -p "${comp_dir}"
 
         for arch in "${ARCHS[@]}"
         do
             if [ "${arch}" == "src" ]
             then
                 source_dir="${comp_dir}/source"
-                mkdir -pv "${source_dir}"
+                mkdir -p "${source_dir}"
 
                 set -x
                 apt-ftparchive -qq sources "${dist_pool}" > "${source_dir}/Sources"
@@ -244,7 +265,7 @@ function repo_build {
                 echo "Architecture: source" >> "${source_dir}/Release"
             else
                 binary_dir="${comp_dir}/binary-${arch}"
-                mkdir -pv "${binary_dir}"
+                mkdir -p "${binary_dir}"
 
                 set -x
                 apt-ftparchive --arch "${arch}" packages "${dist_pool}" > "${binary_dir}/Packages"
@@ -277,20 +298,24 @@ function repo_build {
         set +x
         popd
     done
-
     popd
 
-    rm -rf build/release
-    mv -v build/release.partial build/release
-
+    # Create a tar file of the updates
     #TODO: ensure this is reproducible
+    set -x
     tar \
         --create \
-        --verbose \
-        --directory build/release \
-        --file build/release.tar \
+        --directory build/release.partial \
+        --file build/release.tar.partial \
         --sort=name \
         ./
+    set +x
+
+    # Remove temporary directory for updates after tar is created
+    rm -rf build/release.partial
+
+    # Atomically update build/release.tar
+    mv -v build/release.tar.partial build/release.tar
 
     echo -e "\e[1mBuild complete\e[0m"
 }
