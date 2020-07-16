@@ -93,7 +93,7 @@ function repo_sync {
 
             echo "  - staging: ${staging}"
 
-            release="$(grep "^${dist}${repo}=" sync | cut -d "=" -f 2-)"
+            release="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 2-)"
             if [ -n "${release}" ]
             then
                 echo "  - release: ${release}"
