@@ -1,0 +1,4 @@
+[submodule "apt-mirror"]
+	path = apt-mirror
+	url = https://github.com/pop-os/apt-mirror.git
+	branch = master
