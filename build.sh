@@ -115,7 +115,10 @@ function repo_sync {
                 fi
             fi
 
-            echo "${dist}/${repo}=${version}" >> build/sync
+            if [ -n "${version}" ]
+            then
+                echo "${dist}/${repo}=${version}" >> build/sync
+            fi
         done
     done
 
