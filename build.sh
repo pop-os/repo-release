@@ -83,14 +83,8 @@ function repo_sync {
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
-            true dscverify \
-                --no-default-keyring \
-                --keyring /etc/apt/trusted.gpg \
-                "${staging_dsc}"
-
             #TODO: make sure only one version exists
             staging="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
-
             echo "  - staging: ${staging}"
 
             release="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 2-)"
