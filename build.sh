@@ -132,6 +132,7 @@ function repo_sync {
 function repo_build {
     echo -e "\e[1mBuilding...\e[0m"
 
+    rm -fv build/release.tar
     mkdir -pv build/release.partial
 
     cat sync | while read line
@@ -281,6 +282,15 @@ function repo_build {
 
     rm -rf build/release
     mv -v build/release.partial build/release
+
+    #TODO: ensure this is reproducible
+    tar \
+        --create \
+        --verbose \
+        --directory build/release \
+        --file build/release.tar \
+        --sort=name \
+        ./
 
     echo -e "\e[1mBuild complete\e[0m"
 }
