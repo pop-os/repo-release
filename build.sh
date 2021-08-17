@@ -140,21 +140,10 @@ function repo_build {
     echo -e "\e[1mBuilding...\e[0m"
 
     # Remove previous release data
-    rm -rf build/release build/release.partial build/release.tar.partial
+    rm -rf build/release.partial
 
     # Create directory for previous repo
     mkdir -p build/release
-
-    # Extract previous version of repo
-    if [ -f build/release.tar ]
-    then
-        set -x
-        tar \
-            --extract \
-            --directory build/release \
-            --file build/release.tar
-        set +x
-    fi
 
     # Create temporary directory for updates
     mkdir -p build/release.partial
@@ -317,22 +306,8 @@ function repo_build {
     done
     popd
 
-    # Create a tar file of the updates
-    #TODO: ensure this is reproducible
-    set -x
-    tar \
-        --create \
-        --directory build/release.partial \
-        --file build/release.tar.partial \
-        --sort=name \
-        ./
-    set +x
-
-    # Remove temporary directory for updates after tar is created
-    rm -rf build/release.partial
-
-    # Atomically update build/release.tar
-    mv -v build/release.tar.partial build/release.tar
+    # Atomically update build/release
+    mv -v build/release.partial build/release
 
     echo -e "\e[1mBuild complete\e[0m"
 }
