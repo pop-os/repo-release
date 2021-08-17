@@ -87,8 +87,8 @@ function repo_sync {
     do
         for staging_pool in "build/mirror/${ARCHIVE}/pool/${dist}/"*/*
         do
+            repo="$(basename "$(dirname "${staging_pool}")")"
             commit="$(basename "${staging_pool}")"
-			repo="$(basename "$(dirname "${staging_pool}")")"
             echo -e "\e[1m$repo: $commit\e[0m"
 
             #TODO: make sure only one dsc exists
@@ -97,7 +97,7 @@ function repo_sync {
             staging="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
             echo "  - staging: ${staging}"
 
-            release="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 2-)"
+            release="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 3-)"
             if [ -n "${release}" ]
             then
                 echo "  - release: ${release}"
@@ -127,7 +127,7 @@ function repo_sync {
 
             if [ -n "${version}" ]
             then
-                echo "${dist}/${repo}=${version}" >> build/sync
+                echo "${dist}/${repo}=${commit}=${version}" >> build/sync
             fi
         done
     done
@@ -169,13 +169,14 @@ function repo_build {
 
         dist="$(echo "$line" | cut -d "=" -f 1 | cut -d "/" -f 1)"
         repo="$(echo "$line" | cut -d "=" -f 1 | cut -d "/" -f 2-)"
-        version="$(echo "$line" | cut -d "=" -f 2-)"
+        commit="$(echo "$line" | cut -d "=" -f 2)"
+        version="$(echo "$line" | cut -d "=" -f 3-)"
 
         echo -e "\e[1m$repo\e[0m ${dist}"
         echo "  - sync: ${version}"
 
         staging=""
-        staging_pool="build/mirror/${ARCHIVE}/pool/${dist}/${repo}"
+        staging_pool="build/mirror/${ARCHIVE}/pool/${dist}/${repo}/${commit}"
         #TODO: make sure only one dsc exists
         staging_dsc="$(echo "${staging_pool}/"*".dsc")"
         if [ -n "${staging_dsc}" ]
@@ -191,7 +192,7 @@ function repo_build {
         fi
 
         release=""
-        release_pool="build/release/pool/${dist}/${repo}"
+        release_pool="build/release/pool/${dist}/${repo}/${commit}"
         #TODO: make sure only one dsc exists
         release_dsc="$(echo "${release_pool}/"*".dsc")"
         if [ -n "${release_dsc}" ]
@@ -206,7 +207,7 @@ function repo_build {
             echo "  - release: None"
         fi
 
-        partial_pool="build/release.partial/pool/${dist}/${repo}"
+        partial_pool="build/release.partial/pool/${dist}/${repo}/${commit}"
         mkdir -p "$(dirname "${partial_pool}")"
         if [ "${release}" == "${version}" ]
         then
@@ -235,8 +236,17 @@ function repo_build {
         dist="$(basename "${dist_pool}")"
         #TODO: copy version from staging?
         case "${dist}" in
+            "bionic")
+                dist_version="18.04"
+                ;;
             "focal")
                 dist_version="20.04"
+                ;;
+            "hirsute")
+                dist_version="21.04"
+                ;;
+            "impish")
+                dist_version="21.10"
                 ;;
             *)
                 echo "unknown dist '${dist}'" >@2
