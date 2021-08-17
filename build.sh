@@ -8,9 +8,18 @@ ARCHIVE=apt.pop-os.org/staging/master
 # The components to mirror
 COMPONENTS=(main)
 # Distributions to mirror
-DISTS=(focal)
+DISTS=(
+	bionic
+	focal
+	hirsute
+	impish
+)
 # Architectures to mirror
-ARCHS=(amd64 i386 src)
+ARCHS=(
+	amd64
+	i386
+	src
+)
 
 GPG_FLAGS=(
     --batch --yes \
@@ -76,10 +85,11 @@ function repo_sync {
 
     for dist in "${DISTS[@]}"
     do
-        for staging_pool in "build/mirror/${ARCHIVE}/pool/${dist}/"*
+        for staging_pool in "build/mirror/${ARCHIVE}/pool/${dist}/"*/*
         do
-            repo="$(basename "${staging_pool}")"
-            echo -e "\e[1m$repo\e[0m"
+            commit="$(basename "${staging_pool}")"
+			repo="$(basename "$(dirname "${staging_pool}")")"
+            echo -e "\e[1m$repo: $commit\e[0m"
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
