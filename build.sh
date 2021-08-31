@@ -89,7 +89,7 @@ function repo_sync {
         do
             repo="$(basename "$(dirname "${staging_pool}")")"
             commit="$(basename "${staging_pool}")"
-            echo -e "\e[1m$repo: $commit\e[0m"
+            echo -e "\e[1m$dist: $repo: $commit\e[0m"
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
