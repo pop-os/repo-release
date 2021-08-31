@@ -295,7 +295,7 @@ function repo_build {
             -o "APT::FTPArchive::Release::Suite=${dist}" \
             -o "APT::FTPArchive::Release::Version=${dist_version}" \
             -o "APT::FTPArchive::Release::Codename=${dist}" \
-            -o "APT::FTPArchive::Release::Architectures=${ARCHS}" \
+            -o "APT::FTPArchive::Release::Architectures=${ARCHS[@]}" \
             -o "APT::FTPArchive::Release::Components=${comp}" \
             -o "APT::FTPArchive::Release::Description=Pop!_OS Release ${dist} ${dist_version}" \
             release . > "Release"
