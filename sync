@@ -253,6 +253,7 @@ impish/gnome-shell-extension-pop-battery-icon-fix=741eaace25a99d9fc2545942a9c88f
 impish/gnome-shell-extension-pop-shop-details=11349f63151bb99a8bee339e21a94a257f845ecc=0.1.0~1587579004~21.10~11349f6
 impish/gnome-shell-extension-pop-suspend-button=858506078b8bae0fcf507dc94e9ec1a3f1c36bc1=1.0.4~1579278356~21.10~8585060
 impish/gnome-shell-extension-system76-power=fc4aca18a3474c67c3e537fd593aa973c2c6c393=2.0.1~1622647103~21.10~fc4aca1
+impish/gnome-shell-extension-vertical-overview=d986799513fea6ebaf549c38ec6a02d849f454e2=0.1.0~1630435957~21.10~d986799
 impish/gnome-terminal=0d86be108c62b4d6287dfe5b249539851aa98fd9=3.38.1-1ubuntu1pop0~1616443756~21.10~0d86be1
 impish/grub-theme=2ed83491e9f463136978c73ec47a91dacc1ce2d5=2.0.0~1582050224~21.10~2ed8349
 impish/gtk-theme=6615e4510485c5dc0b379746acc40f538d987c86=5.4.4~1629398560~21.10~6615e45
@@ -301,5 +302,5 @@ impish/touchegg=2c84d779ce45d16ada2948e11099fb3a03056392=2.0.9pop0~1619541270~21
 impish/transition=44c59f0a4b5e24dc0c1d686ba8a73059f743e04a=1.1.2~1622814235~21.10~44c59f0
 impish/ubuntu-drivers-common=baea96ebdace783cf75051b52ab54c10c40979fa=1:0.9.1.2pop0~1628522601~21.10~baea96e
 impish/upgrade=c889f23b53e82332a3cf7708d77d7c4e31d40b7e=1.0.0~1628868680~21.10~c889f23
-impish/virtualbox=9f6d4d4da75dae80a3d32a0d32f0aa3c037f1a7f=6.1.26-dfsg-3~1629056339~21.10~9f6d4d4
+impish/virtualbox=bd34103c1ea05c4da44a5554d47d4927bafe0bca=6.1.26-dfsg-3pop0~1630437987~21.10~bd34103
 impish/wallpapers=03a25a14a76eaf3825b980ab50aad6698c1c5a35=1.0.5~1629131386~21.10~03a25a1
