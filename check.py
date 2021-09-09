@@ -25,11 +25,12 @@ with tempfile.TemporaryDirectory() as rootdir:
 
     def add_source(name, source):
         with open(f"{source_dir}/{name}.sources", 'w') as f:
+            print(source.dump())
             f.write(source.dump())
 
-    system_source = repolib.SystemSource()
-    system_source.suites = [SUITE, f"{SUITE}-security", f"{SUITE}-updates", f"{SUITE}-backports"]
-    add_source("system", system_source)
+    ubuntu = repolib.DebLine("deb http://us.archive.ubuntu.com/ubuntu " + SUITE + " main restricted universe multiverse")
+    ubuntu.suites = [SUITE, f"{SUITE}-security", f"{SUITE}-updates", f"{SUITE}-backports"]
+    add_source("ubuntu", ubuntu)
 
     pop_release = repolib.DebLine("deb http://apt.pop-os.org/release " + SUITE + " main")
     add_source("pop-os-release", pop_release)
