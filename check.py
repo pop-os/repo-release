@@ -4,7 +4,6 @@ import apt
 import os
 import re
 import repolib
-import subprocess
 import sys
 import tempfile
 
@@ -17,6 +16,7 @@ def pop_origins(ver):
 if len(sys.argv) >= 2:
     SUITE = sys.argv[1]
 
+outdated = 0
 with tempfile.TemporaryDirectory() as rootdir:
     source_dir = f"{rootdir}/etc/apt/sources.list.d"
     os.makedirs(source_dir)
@@ -52,3 +52,8 @@ with tempfile.TemporaryDirectory() as rootdir:
             print(pkg)
             print(f"   {pop_origin.origin}:\t{pop_ver.source_name}\t{pop_ver.source_version}")
             print(f"   {max_origin.origin}:\t{max_ver.source_name}\t{max_ver.source_version}")
+            outdated += 1
+
+print(f"\x1B[1m{outdated} packages are out of date\x1B[0m")
+if outdated > 0:
+    sys.exit(1)
