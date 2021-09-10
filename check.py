@@ -18,6 +18,8 @@ if len(sys.argv) >= 2:
 
 outdated = {}
 with tempfile.TemporaryDirectory() as rootdir:
+    print("\x1B[1msetting up repositories\x1B[0m")
+
     source_dir = f"{rootdir}/etc/apt/sources.list.d"
     os.makedirs(source_dir)
 
