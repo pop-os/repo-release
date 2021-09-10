@@ -246,7 +246,7 @@ impish/gnome-control-center=8f74fd4523e7d23f1e38ca5cdbab9efde0bc65e4=1:40.0-1ubu
 impish/gnome-initial-setup=a0b0a53adb3fed280f19cd4dffa6834ddaef9e2b=3.36.1~1624980476~21.10~a0b0a53
 impish/gnome-online-accounts=aaf9782326567a57e0488bf562d631fb411f3974=3.40.0-1ubuntu1pop0~1628519912~21.10~aaf9782
 impish/gnome-settings-daemon=f83b58fd15f65dd7b639346ea0611d5575107048=40.0.1-1ubuntu2pop0~1628521697~21.10~f83b58f
-impish/gnome-shell=18ca86ff3c44d3c657d5e3544b4735e7491c6c91=40.2-1ubuntu6pop0~1631195023~21.10~18ca86f
+impish/gnome-shell=be4d6aaf2fcedd97b1a7a4dd09e142d0c14d21dd=40.2-1ubuntu6pop0~1631290044~21.10~be4d6aa
 impish/gnome-shell-extension-alt-tab-raise-first-window=0c3e1aa2a8b6486e6bd3100f8dfde17354ba7eb5=0.1.1~1554907039~21.10~0c3e1aa
 impish/gnome-shell-extension-always-show-workspaces=f3954d74b1a1f4f13b076c37f022f17408b4da35=0.1.1~1587581300~21.10~f3954d7
 impish/gnome-shell-extension-do-not-disturb=4fc03cc05bcc67dd18cb891f8a08c5c57d3f0b61=1.0.0~1580510234~21.10~4fc03cc
