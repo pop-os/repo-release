@@ -18,6 +18,7 @@ DISTS=(
 ARCHS=(
 	amd64
 	i386
+	arm64
 	src
 )
 
