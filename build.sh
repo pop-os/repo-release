@@ -89,38 +89,39 @@ function repo_sync {
         for staging_pool in "build/mirror/${ARCHIVE}/pool/${dist}/"*/*
         do
             repo="$(basename "$(dirname "${staging_pool}")")"
-            commit="$(basename "${staging_pool}")"
-            echo -e "\e[1m$dist: $repo: $commit\e[0m"
+            echo -e "\e[1m$dist: $repo\e[0m"
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
             #TODO: make sure only one version exists
-            staging="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
-            echo "  - staging: ${staging}"
+            staging_version="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
+            staging_commit="$(basename "${staging_pool}")"
+            echo "  - staging: ${staging_version}"
 
-            release="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 3-)"
-            if [ -n "${release}" ]
+            version="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 3-)"
+            commit="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 2)"
+            if [ -n "${version}" ]
             then
-                echo "  - release: ${release}"
+                echo "  - release: ${version}"
             else
                 echo "  - release: None"
             fi
 
-            version="${release}"
-            if dpkg --compare-versions "${staging}" gt "${release}"
+            if dpkg --compare-versions "${staging_version}" gt "${version}"
             then
                 if [ "$yes" == "1" ]
                 then
                     echo "    Skipping prompt as --yes was provided"
                     answer="y"
                 else
-                    echo -n "    Do you want to sync '${staging}' to release? (y/N)"
+                    echo -n "    Do you want to sync '${staging_version}' to release? (y/N)"
                     read answer
                 fi
                 if [ "${answer}" == "y" ]
                 then
-                    echo "    Syncing '${staging}'"
-                    version="${staging}"
+                    echo "    Syncing '${staging_version}'"
+                    version="${staging_version}"
+					commit="${staging_commit}"
                 else
                     echo "    Not syncing, answer was '${answer}'"
                 fi
