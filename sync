@@ -28,6 +28,7 @@ bionic/gnome-shell-extension-pop-shop-details=11349f63151bb99a8bee339e21a94a257f
 bionic/gnome-shell-extension-pop-suspend-button=e4116a6269a4f02d966219001ea9677a6efead75=1.0.3~1509570045~18.04~e4116a6
 bionic/gnome-shell-extension-system76-power=436b6481065e69e168b84e0e493d4846582e431a=1.0.0~1561669692~18.04~436b648
 bionic/gnome-shell-theme=8c7ef1b92d4af7a71600ac9a282a8d08539591b8=4.0.12~1580928401~18.04~8c7ef1b
+bionic/granite=e9b17473659458bb24a614e94503c3fa08a5a4bf=5.5.0~1638913619~18.04~e9b1747
 bionic/grub-theme=2ed83491e9f463136978c73ec47a91dacc1ce2d5=2.0.0~1582050224~18.04~2ed8349
 bionic/gtk-theme=f75e86a1d79458a1bd1b0a6e786c880a28cd4d40=4.1.4~1560290633~18.04~f75e86a
 bionic/happiness=3a8758dbb73dc2c057f613add5c7f048e3116214=1.0-1~1579639051~18.04~3a8758d
@@ -101,6 +102,7 @@ focal/gnome-shell-extension-pop-shop-details=11349f63151bb99a8bee339e21a94a257f8
 focal/gnome-shell-extension-pop-suspend-button=858506078b8bae0fcf507dc94e9ec1a3f1c36bc1=1.0.4~1579278356~20.04~8585060
 focal/gnome-shell-extension-system76-power=a901dc05cb149f4b234f39ce1fefbfcc7db8624d=2.0.2~1631828901~20.04~a901dc0
 focal/gnome-terminal=8048ed7952432ea694678a42fc2324e133ccb4db=3.36.2-1ubuntu1~20.04pop0~1594780610~20.04~8048ed7
+focal/granite=ba840447d3b1ceaf2becbdcef7d33994161f66ea=6.0.0~1616698162~20.04~ba84044
 focal/grub-theme=2ed83491e9f463136978c73ec47a91dacc1ce2d5=2.0.0~1582050224~20.04~2ed8349
 focal/gtk-theme=2f38cadf3cdac2673449b623a01676781ca3bd5d=5.2.0~1620141353~20.04~2f38cad
 focal/happiness=3a8758dbb73dc2c057f613add5c7f048e3116214=1.0-1~1579639051~20.04~3a8758d
@@ -194,6 +196,7 @@ hirsute/gnome-shell-extension-pop-shop-details=11349f63151bb99a8bee339e21a94a257
 hirsute/gnome-shell-extension-pop-suspend-button=858506078b8bae0fcf507dc94e9ec1a3f1c36bc1=1.0.4~1579278356~21.04~8585060
 hirsute/gnome-shell-extension-system76-power=a901dc05cb149f4b234f39ce1fefbfcc7db8624d=2.0.2~1631828901~21.04~a901dc0
 hirsute/gnome-terminal=0d86be108c62b4d6287dfe5b249539851aa98fd9=3.38.1-1ubuntu1pop0~1616443756~21.04~0d86be1
+hirsute/granite=ba840447d3b1ceaf2becbdcef7d33994161f66ea=6.0.0~1616698162~21.04~ba84044
 hirsute/grub-theme=2ed83491e9f463136978c73ec47a91dacc1ce2d5=2.0.0~1582050224~21.04~2ed8349
 hirsute/gtk-theme=11bcd419a3179d006e148725cb9477369cb2c66d=5.3.3~1625837590~21.04~11bcd41
 hirsute/happiness=3a8758dbb73dc2c057f613add5c7f048e3116214=1.0-1~1579639051~21.04~3a8758d
@@ -289,6 +292,7 @@ impish/gnome-shell-extension-pop-shop-details=11349f63151bb99a8bee339e21a94a257f
 impish/gnome-shell-extension-pop-suspend-button=858506078b8bae0fcf507dc94e9ec1a3f1c36bc1=1.0.4~1579278356~21.10~8585060
 impish/gnome-shell-extension-system76-power=a901dc05cb149f4b234f39ce1fefbfcc7db8624d=2.0.2~1631828901~21.10~a901dc0
 impish/gnome-terminal=ea9291993b2d4db6d622f8d20423af49f06719a7=3.38.1-1ubuntu2pop0~1633631287~21.10~ea92919
+impish/granite=ba840447d3b1ceaf2becbdcef7d33994161f66ea=6.0.0~1616698162~21.10~ba84044
 impish/grub-theme=2ed83491e9f463136978c73ec47a91dacc1ce2d5=2.0.0~1582050224~21.10~2ed8349
 impish/gtk-theme=23d7ac8393cc6bdf0bcaa4930056a50257b143ab=5.4.5~1634918910~21.10~23d7ac8
 impish/happiness=3a8758dbb73dc2c057f613add5c7f048e3116214=1.0-1~1579639051~21.10~3a8758d
