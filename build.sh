@@ -211,7 +211,6 @@ function repo_build {
                 cp -a "${staging_pool}" "${partial_pool}"
             else
                 echo "    Failed to find '${version}' in staging or release" >&2
-                exit 1
             fi
         fi
     done
