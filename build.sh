@@ -11,8 +11,8 @@ COMPONENTS=(main)
 DISTS=(
     bionic
     focal
-    hirsute
     impish
+    jammy
 )
 # Architectures to mirror
 ARCHS=(
