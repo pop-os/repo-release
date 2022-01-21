@@ -177,7 +177,7 @@ function repo_sync {
     done
 
     echo -e "\e[1mSync complete, please commit changes:\e[0m"
-    echo "git commit -F build/message sync"
+    echo "git commit -F build/message -s sync"
 }
 
 function repo_build {
