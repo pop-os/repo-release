@@ -275,11 +275,11 @@ function repo_build {
             "focal")
                 dist_version="20.04"
                 ;;
-            "hirsute")
-                dist_version="21.04"
-                ;;
             "impish")
                 dist_version="21.10"
+                ;;
+            "jammy")
+                dist_version="22.04"
                 ;;
             *)
                 echo "unknown dist '${dist}'" >@2
