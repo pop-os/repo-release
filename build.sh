@@ -9,8 +9,6 @@ ARCHIVE=apt.pop-os.org/staging/master
 COMPONENTS=(main)
 # Distributions to mirror
 DISTS=(
-    bionic
-    focal
     impish
     jammy
 )
