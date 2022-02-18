@@ -131,7 +131,7 @@ function repo_sync {
                     then
                         dist_summary+=(
                             "    - Old: \`${version}\`"
-                            "    - https://github.com/pop-os/${repo}/compare/${commit}..${staging_commit}"
+                            "    - https://github.com/pop-os/${repo}/compare/${commit}...${staging_commit}"
                         )
                     else
                         dist_summary+=(
