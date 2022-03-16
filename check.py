@@ -7,7 +7,7 @@ import repolib
 import sys
 import tempfile
 
-POP_ORIGINS = ["pop-os-release"]
+POP_ORIGINS = ["pop-os-release", "pop-os-staging-master"]
 SUITE = "impish"
 
 def pop_origins(ver):
@@ -37,6 +37,9 @@ with tempfile.TemporaryDirectory() as rootdir:
     pop_release = repolib.DebLine("deb http://apt.pop-os.org/release " + SUITE + " main")
     add_source("pop-os-release", pop_release)
 
+    pop_staging_master = repolib.DebLine("deb http://apt.pop-os.org/staging/master " + SUITE + " main")
+    add_source("pop-os-staging-master", pop_staging_master)
+
     print("\x1B[1mupdating cache\x1B[0m")
     cache = apt.Cache(rootdir=rootdir, memonly=True)
     cache.update()
@@ -53,10 +56,10 @@ with tempfile.TemporaryDirectory() as rootdir:
             print(f"   {pop_origin.origin}:\t{pop_ver.source_name}\t{pop_ver.source_version}")
             print(f"   {max_origin.origin}:\t{max_ver.source_name}\t{max_ver.source_version}")
             if pop_ver.source_name == max_ver.source_name:
-                outdated[pop_ver.source_name] = True
+                outdated[pop_ver.source_name] = max_ver.source_version
 
 print(f"\x1B[1m{len(outdated)} source package(s) out of date\x1B[0m")
-for source_name in outdated:
-    print(f"  - {source_name}")
+for source_name in sorted(outdated):
+    print(f"  - {source_name}: {outdated[source_name]}")
 if len(outdated) > 0:
     sys.exit(1)
