@@ -154,6 +154,44 @@ function repo_sync {
             fi
         done
 
+        dist_removed=()
+        while read line
+        do
+            repo="$(echo "$line" | cut -d "=" -f 1 | cut -d "/" -f 2-)"
+            if ! grep "^${dist}/${repo}=" build/sync > /dev/null
+            then
+                dist_removed+=("${repo}")
+            fi
+        done < <(grep "^${dist}/" sync)
+
+        for repo in "${dist_removed[@]}"
+        do
+            echo -e "\e[1m$dist: $repo\e[0m"
+            echo "  - staging: none"
+            version="$(grep "^${dist}/${repo}=" sync | cut -d "=" -f 3-)"
+            echo "  - release: ${version}"
+
+            if [ "$yes" == "1" ]
+            then
+                echo "    Skipping prompt as --yes was provided"
+                answer="y"
+            else
+                echo -n "    Package removed, do you want to continue? (y/N)"
+                read answer
+            fi
+            if [ "${answer}" != "y" ]
+            then
+                echo "    Exiting, answer was '${answer}'"
+                exit 1
+            fi
+
+            dist_summary+=(
+                "  - ${repo}"
+                "    - Removed ${version}"
+            )
+            total="$(expr "${total}" + 1)"
+        done
+
         if [ -n "${dist_summary}" ]
         then
             summary+=(
