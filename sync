@@ -129,8 +129,8 @@ jammy/fwupd-efi=f30da97fb3eb278f14cb0e0b9eb1d949b5401c0a=1:1.1-4pop0~1643174914~
 jammy/gdm3=098263d3d5a8792eb161338656cae350c5dc67c3=42.0-1ubuntu1pop0~1648760425~22.04~098263d
 jammy/gnome-control-center=44b5762df9c8a01d6937a21c6ddd45bfc5edecbf=1:41.4-1ubuntu8pop1~1648150177~22.04~44b5762
 jammy/gnome-initial-setup=4784cb49864969c377a26830d425c234c24e8340=3.36.1~1646756143~22.04~4784cb4
-jammy/gnome-online-accounts=2bcf9970c828d0fa966d8e632086c220bbb78eb2=3.40.1-2ubuntu1~1648760577~22.04~2bcf997
-jammy/gnome-settings-daemon=c222aaa8a2e2b420ee11e603c9ae7d7ce7e2c666=42~alpha-1ubuntu1pop0~1648743515~22.04~c222aaa
+jammy/gnome-online-accounts=8042754ab7587405b37fbad62eec09c263f27efe=3.40.1-2ubuntu1pop0~1649081188~22.04~8042754
+jammy/gnome-settings-daemon=192b1be01d44f97cefbc270dae51901490838cbf=42.1-1ubuntu1pop0~1649081298~22.04~192b1be
 jammy/gnome-shell=555f2d3232dfa07e43f48014ee2491b7ad49adcb=42.0-1ubuntu1pop0~1648847300~22.04~555f2d3
 jammy/gnome-shell-extension-alt-tab-raise-first-window=0c3e1aa2a8b6486e6bd3100f8dfde17354ba7eb5=0.1.1~1554907039~22.04~0c3e1aa
 jammy/gnome-shell-extension-always-show-workspaces=f3954d74b1a1f4f13b076c37f022f17408b4da35=0.1.1~1587581300~22.04~f3954d7
