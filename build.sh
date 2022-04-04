@@ -187,7 +187,7 @@ function repo_sync {
 
             dist_summary+=(
                 "  - ${repo}"
-                "    - Removed ${version}"
+                "    - Removed \`${version}\`"
             )
             total="$(expr "${total}" + 1)"
         done
