@@ -367,6 +367,15 @@ function repo_build {
             fi
         done
 
+        pushd ../..
+        appstream-generator run ${dist}
+        popd
+        for comp in "${COMPONENTS[@]}"
+        do
+            cp -r "../../export/data/${dist}/${comp}" "${dists_dir}/${comp}/dep11"
+            gzip -dk "${dists_dir}/${comp}/dep11/"*.gz
+        done
+
         pushd "${dists_dir}"
         set -x
         apt-ftparchive \

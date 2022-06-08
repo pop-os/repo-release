@@ -1,0 +1,24 @@
+{
+    "ProjectName": "Pop!_OS",
+    "ArchiveRoot": "./build/release.partial",
+    "Backend": "debian",
+    "Features": {
+        "processDesktop": true
+    },
+    "Suites": {
+        "impish": {
+            "sections": ["main"],
+            "architectures": ["amd64", "arm64", "i386"]
+        },
+        "jammy": {
+            "sections": ["main"],
+            "architectures": ["amd64", "arm64", "i386"]
+	}
+    }
+  },
+ "Icons":
+  {
+    "64x64":   {"cached": true, "remote": false},
+    "128x128": {"cached": true, "remote": false}
+  }
+}
