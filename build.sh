@@ -9,7 +9,6 @@ ARCHIVE=apt.pop-os.org/staging/master
 COMPONENTS=(main)
 # Distributions to mirror
 DISTS=(
-    impish
     jammy
 )
 # Architectures to mirror
