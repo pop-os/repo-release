@@ -12,6 +12,10 @@ DISTS=(
     impish
     jammy
 )
+# Distributions to keep packages from, even if removed from staging
+DISTS_NO_REMOVE=(
+    impish
+)
 # Architectures to mirror
 ARCHS=(
     amd64
@@ -50,6 +54,18 @@ do
             ;;
     esac
 done
+
+function dist_in_no_remove {
+    local dist
+    for dist in "${DISTS_NO_REMOVE[@]}"
+    do
+        if [ "$dist" = "$1" ]
+        then
+            return 0
+        fi
+    done
+    return 1
+}
 
 function repo_pull {
     echo -e "\n\e[1mPulling...\e[0m"
@@ -160,7 +176,12 @@ function repo_sync {
             repo="$(echo "$line" | cut -d "=" -f 1 | cut -d "/" -f 2-)"
             if ! grep "^${dist}/${repo}=" build/sync > /dev/null
             then
-                dist_removed+=("${repo}")
+                if dist_in_no_remove ${dist}
+                then
+                     echo $line >> build/sync
+                else
+                     dist_removed+=("${repo}")
+                fi
             fi
         done < <(grep "^${dist}/" sync)
 
