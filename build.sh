@@ -36,7 +36,7 @@ declare -A ARCHS_MAP=(
 )
 
 GPG_FLAGS=(
-    --batch --yes \
+    --batch --yes --ignore-binary \
     --digest-algo sha512 \
 )
 if [ -n "${DEBEMAIL}" ]
@@ -45,6 +45,7 @@ then
 fi
 
 build="0"
+ignore_binary="0"
 pull="1"
 sync="1"
 yes="0"
@@ -54,6 +55,9 @@ do
         "--build")
             build="1"
             sync="0"
+            ;;
+        "--ignore-binary") # Allow package release even if binary failed to build
+            ignore_binary="1"
             ;;
         "--yes")
             yes="1"
@@ -143,11 +147,11 @@ function repo_sync {
             fi
 
 	    # Test if all architechtures in the debian/control file actually built. Set all_built to false if they havent all built.
-	    all_built=true
+	    all_built=1
 	    declare -a test_archs
 	    builds_for=$(cat build/mirror/${ARCHIVE}/pool/${dist}/${repo}/*/*.dsc | grep "^Arch") 
 	    for arch in $builds_for; do
-		if ! $all_built; then
+		if ! [ $all_built == 1 ]; then
 			break
 		fi
 
@@ -160,15 +164,15 @@ function repo_sync {
                 for a in "${test_archs[@]}"; do
 
 		    if ! grep -qP "Filename: pool/${dist}/${repo}/" build/mirror/${ARCHIVE}/dists/${dist}/main/binary-${a}/Packages; then
-			all_built=false
+			all_built=0
 	                echo -e "\e[1;33m  * ${repo} cannot be released because not all architechtures in 'debian/control' built.\e[0m"
 			break
                     fi
                 done
 	    done
 
-	    # Now ask if we should sync if staging has a newer version and all architechtures have built
-            if $all_built && dpkg --compare-versions "${staging_version}" gt "${version}"
+	    # Now ask if we should sync if ( all architechtures built or --ignore-binary flag passed ) and a newer version is available
+	    if [ $((`expr $all_built + $ignore_binary`)) -ge 1 ] && dpkg --compare-versions "${staging_version}" gt "${version}"
             then
                 if [ "$yes" == "1" ]
                 then
