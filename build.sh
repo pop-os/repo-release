@@ -23,10 +23,16 @@ ARCHS=(
     arm64
     src
 )
-# Architectures we want to guarentee built (currently our build server doesn't build i386)
-GUARANTEED_ARCHS=(
-    amd64
-    arm64
+# A mapping of debian architechtures to output folder names
+# Any architechtures listed here are required to build before a
+# package can be released.
+declare -A ARCHS_MAP=(
+    [amd64]="amd64"
+    [arm64]="arm64"
+    [i386]="i386"
+    [linux-any]="amd64 arm64"
+    [any]="amd64 arm64 i386"
+    [all]="amd64 arm64 i386"
 )
 
 GPG_FLAGS=(
@@ -146,16 +152,10 @@ function repo_sync {
 		fi
 
 		unset test_archs
-                for a in "${GUARANTEED_ARCHS[@]}"; do
-                    if [[ "$arch" == "$a" ]]; then
-		        test_archs+=("$a")
-                    elif [[ "$arch" == "linux-any" || "$arch" == "all" || "$arch" == "any" ]]; then
-			for b in "${GUARANTEED_ARCHS[@]}"; do
-				test_archs+=($b)
-			done
-			break
-                    fi
-                done
+		archs=( "${ARCHS_MAP[$arch]}" )
+		for a in "${archs[@]}"; do
+                    test_archs+=($a)
+		done
 
                 for a in "${test_archs[@]}"; do
 
