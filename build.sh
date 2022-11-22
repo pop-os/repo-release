@@ -118,6 +118,10 @@ function repo_sync {
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
+	    if [[ -z $staging_dsc ]]; then
+                echo -e "\e[1;33m  * ${repo} is missing a .dsc file. Packaging is incorrect. ${repo} cannot be released.\e[0m"
+		continue
+            fi
             #TODO: make sure only one version exists
             staging_version="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
             staging_commit="$(basename "${staging_pool}")"
