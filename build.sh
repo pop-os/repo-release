@@ -23,9 +23,20 @@ ARCHS=(
     arm64
     src
 )
+# A mapping of debian architechtures to output folder names
+# Any architechtures listed here are required to build before a
+# package can be released.
+declare -A ARCHS_MAP=(
+    [amd64]="amd64"
+    [arm64]="arm64"
+    [i386]="i386"
+    [linux-any]="amd64 arm64"
+    [any]="amd64 arm64 i386"
+    [all]="amd64 arm64 i386"
+)
 
 GPG_FLAGS=(
-    --batch --yes \
+    --batch --yes --ignore-binary \
     --digest-algo sha512 \
 )
 if [ -n "${DEBEMAIL}" ]
@@ -34,6 +45,7 @@ then
 fi
 
 build="0"
+ignore_binary="0"
 pull="1"
 sync="1"
 yes="0"
@@ -43,6 +55,9 @@ do
         "--build")
             build="1"
             sync="0"
+            ;;
+        "--ignore-binary") # Allow package release even if binary failed to build
+            ignore_binary="1"
             ;;
         "--yes")
             yes="1"
@@ -113,6 +128,10 @@ function repo_sync {
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
+	    if [[ -z $staging_dsc ]]; then
+                echo -e "\e[1;33m  * ${repo} is missing a .dsc file. Packaging is incorrect. ${repo} cannot be released.\e[0m"
+		continue
+            fi
             #TODO: make sure only one version exists
             staging_version="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
             staging_commit="$(basename "${staging_pool}")"
@@ -127,7 +146,33 @@ function repo_sync {
                 echo "  - release: None"
             fi
 
-            if dpkg --compare-versions "${staging_version}" gt "${version}"
+	    # Test if all architechtures in the debian/control file actually built. Set all_built to false if they havent all built.
+	    all_built=1
+	    declare -a test_archs
+	    builds_for=$(cat build/mirror/${ARCHIVE}/pool/${dist}/${repo}/*/*.dsc | grep "^Arch") 
+	    for arch in $builds_for; do
+		if ! [ $all_built == 1 ]; then
+			break
+		fi
+
+		unset test_archs
+		archs=( "${ARCHS_MAP[$arch]}" )
+		for a in "${archs[@]}"; do
+                    test_archs+=($a)
+		done
+
+                for a in "${test_archs[@]}"; do
+
+		    if ! grep -qP "Filename: pool/${dist}/${repo}/" build/mirror/${ARCHIVE}/dists/${dist}/main/binary-${a}/Packages; then
+			all_built=0
+	                echo -e "\e[1;33m  * ${repo} cannot be released because not all architechtures in 'debian/control' built.\e[0m"
+			break
+                    fi
+                done
+	    done
+
+	    # Now ask if we should sync if ( all architechtures built or --ignore-binary flag passed ) and a newer version is available
+	    if [ $((`expr $all_built + $ignore_binary`)) -ge 1 ] && dpkg --compare-versions "${staging_version}" gt "${version}"
             then
                 if [ "$yes" == "1" ]
                 then
