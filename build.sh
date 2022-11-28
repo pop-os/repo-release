@@ -36,7 +36,7 @@ declare -A ARCHS_MAP=(
 )
 
 GPG_FLAGS=(
-    --batch --yes --ignore-binary \
+    --batch --yes \
     --digest-algo sha512 \
 )
 if [ -n "${DEBEMAIL}" ]
