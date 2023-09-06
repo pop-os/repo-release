@@ -8,7 +8,7 @@ import sys
 import tempfile
 
 POP_ORIGINS = ["pop-os-release", "pop-os-staging-master"]
-SUITE = "impish"
+SUITE = "jammy"
 
 def pop_origins(ver):
     return (o for o in ver.origins if o.origin in POP_ORIGINS)
