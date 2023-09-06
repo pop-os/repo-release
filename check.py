@@ -30,14 +30,17 @@ with tempfile.TemporaryDirectory() as rootdir:
             print(source.dump())
             f.write(source.dump())
 
-    ubuntu = repolib.DebLine("deb http://us.archive.ubuntu.com/ubuntu " + SUITE + " main restricted universe multiverse")
+    ubuntu = repolib.Source()
+    ubuntu.load_from_data(["deb http://us.archive.ubuntu.com/ubuntu " + SUITE + " main restricted universe multiverse"])
     ubuntu.suites = [SUITE, f"{SUITE}-security", f"{SUITE}-updates", f"{SUITE}-backports"]
     add_source("ubuntu", ubuntu)
 
-    pop_release = repolib.DebLine("deb http://apt.pop-os.org/release " + SUITE + " main")
+    pop_release = repolib.Source()
+    pop_release.load_from_data(["deb http://apt.pop-os.org/release " + SUITE + " main"])
     add_source("pop-os-release", pop_release)
 
-    pop_staging_master = repolib.DebLine("deb http://apt.pop-os.org/staging/master " + SUITE + " main")
+    pop_staging_master = repolib.Source()
+    pop_staging_master.load_from_data(["deb http://apt.pop-os.org/staging/master " + SUITE + " main"])
     add_source("pop-os-staging-master", pop_staging_master)
 
     print("\x1B[1mupdating cache\x1B[0m")
