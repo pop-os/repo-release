@@ -360,9 +360,6 @@ function repo_build {
         fi
     done
 
-    # Remove previous release dir
-    rm -rf build/release
-
     # Create repo metadata
     #TODO: Use DISTS?
     pushd build/release.partial
@@ -460,6 +457,9 @@ function repo_build {
         popd
     done
     popd
+
+    # Remove previous release dir
+    rm -rf build/release
 
     # Atomically update build/release
     mv -v build/release.partial build/release
