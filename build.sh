@@ -431,7 +431,8 @@ function repo_build {
         done
 
         pushd ../..
-        appstream-generator run ${dist}
+        # Run appstream-generator on only four CPUs to prevent crashes
+        taskset --cpu-list 0-3 appstream-generator run "${dist}"
         popd
         for comp in "${COMPONENTS[@]}"
         do
