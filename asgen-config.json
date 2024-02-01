@@ -13,7 +13,11 @@
         "jammy": {
             "sections": ["main"],
             "architectures": ["amd64", "arm64", "i386"]
-	}
+	    },
+        "noble": {
+            "sections": ["main"],
+            "architectures": ["amd64", "arm64", "i386"]
+	    }
     }
   },
  "Icons":
