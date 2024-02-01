@@ -11,6 +11,7 @@ COMPONENTS=(main)
 DISTS=(
     impish
     jammy
+    noble
 )
 # Distributions to keep packages from, even if removed from staging
 DISTS_NO_REMOVE=(
@@ -33,6 +34,16 @@ declare -A ARCHS_MAP=(
     [linux-any]="amd64 arm64"
     [any]="amd64 arm64 i386"
     [all]="amd64 arm64 i386"
+)
+
+# This map for 24.04 ignores failures of i386 and arm64 for noble
+declare -A ARCHS_MAP_NOBLE=(
+    [amd64]="amd64"
+    [arm64]=""
+    [i386]=""
+    [linux-any]="amd64"
+    [any]="amd64"
+    [all]="amd64"
 )
 
 GPG_FLAGS=(
@@ -128,9 +139,9 @@ function repo_sync {
 
             #TODO: make sure only one dsc exists
             staging_dsc="$(echo "${staging_pool}/"*".dsc")"
-	    if [[ -z $staging_dsc ]]; then
+            if [[ -z $staging_dsc ]]; then
                 echo -e "\e[1;33m  * ${repo} is missing a .dsc file. Packaging is incorrect. ${repo} cannot be released.\e[0m"
-		continue
+                continue
             fi
             #TODO: make sure only one version exists
             staging_version="$(grep "^Version: " "${staging_dsc}" | cut -d " " -f 2-)"
@@ -146,33 +157,38 @@ function repo_sync {
                 echo "  - release: None"
             fi
 
-	    # Test if all architechtures in the debian/control file actually built. Set all_built to false if they havent all built.
-	    all_built=1
-	    declare -a test_archs
-	    builds_for=$(cat build/mirror/${ARCHIVE}/pool/${dist}/${repo}/*/*.dsc | grep "^Arch") 
-	    for arch in $builds_for; do
-		if ! [ $all_built == 1 ]; then
-			break
-		fi
-
-		unset test_archs
-		archs=( "${ARCHS_MAP[$arch]}" )
-		for a in "${archs[@]}"; do
+            # Test if all architechtures in the debian/control file actually built. Set all_built to false if they havent all built.
+            all_built=1
+            declare -a test_archs
+            builds_for=$(cat build/mirror/${ARCHIVE}/pool/${dist}/${repo}/*/*.dsc | grep "^Arch")
+            for arch in $builds_for; do
+                unset test_archs
+                if [ "$dist" == "noble" ]
+                then
+                    #TODO: remove this hack
+                    archs=( "${ARCHS_MAP_NOBLE[$arch]}" )
+                else
+                    archs=( "${ARCHS_MAP[$arch]}" )
+                fi
+                for a in "${archs[@]}"; do
                     test_archs+=($a)
-		done
+                done
 
                 for a in "${test_archs[@]}"; do
-
-		    if ! grep -qP "Filename: pool/${dist}/${repo}/" build/mirror/${ARCHIVE}/dists/${dist}/main/binary-${a}/Packages; then
-			all_built=0
-	                echo -e "\e[1;33m  * ${repo} cannot be released because not all architechtures in 'debian/control' built.\e[0m"
-			break
+                    if ! grep -qP "Filename: pool/${dist}/${repo}/" "build/mirror/${ARCHIVE}/dists/${dist}/main/binary-${a}/Packages"; then
+                        all_built=0
+                        echo -e "\e[1;33m  * ${repo} cannot be released because architecture ${a} in 'debian/control' did not build.\e[0m"
+                        break
                     fi
                 done
-	    done
 
-	    # Now ask if we should sync if ( all architechtures built or --ignore-binary flag passed ) and a newer version is available
-	    if [ $((`expr $all_built + $ignore_binary`)) -ge 1 ] && dpkg --compare-versions "${staging_version}" gt "${version}"
+                if [ $all_built == 0 ]; then
+                    break
+                fi
+            done
+
+            # Now ask if we should sync if ( all architechtures built or --ignore-binary flag passed ) and a newer version is available
+            if [ $((`expr $all_built + $ignore_binary`)) -ge 1 ] && dpkg --compare-versions "${staging_version}" gt "${version}"
             then
                 if [ "$yes" == "1" ]
                 then
