@@ -451,12 +451,16 @@ function repo_build {
 
         pushd ../..
         # Run appstream-generator on only four CPUs to prevent crashes
+        set -x
         taskset --cpu-list 0-3 appstream-generator run "${dist}"
+        set +x
         popd
         for comp in "${COMPONENTS[@]}"
         do
+            set -x
             cp -r "../../export/data/${dist}/${comp}" "${dists_dir}/${comp}/dep11"
             gzip -dk "${dists_dir}/${comp}/dep11/"*.gz
+            set +x
         done
 
         pushd "${dists_dir}"
