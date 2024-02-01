@@ -396,8 +396,11 @@ function repo_build {
             "jammy")
                 dist_version="22.04"
                 ;;
+            "noble")
+                dist_version="24.04"
+                ;;
             *)
-                echo "unknown dist '${dist}'" >@2
+                echo "unknown dist '${dist}'" >&2
                 exit 1
                 ;;
         esac
