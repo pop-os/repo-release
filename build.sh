@@ -480,6 +480,8 @@ function repo_build {
         set +x
         popd
     done
+    # Copy appstream media pool
+    cp -r "../../export/media/pool" "media"
     popd
 
     # Remove previous release dir

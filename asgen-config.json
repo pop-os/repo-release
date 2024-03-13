@@ -1,6 +1,7 @@
 {
     "ProjectName": "Pop!_OS",
     "ArchiveRoot": "./build/release.partial",
+    "MediaBaseUrl": "https://apt.pop-os.org/release/media",
     "Backend": "debian",
     "Features": {
         "processDesktop": true
