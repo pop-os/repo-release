@@ -460,6 +460,9 @@ function repo_build {
             set -x
             cp -r "../../export/data/${dist}/${comp}" "${dists_dir}/${comp}/dep11"
             gzip -dk "${dists_dir}/${comp}/dep11/"*.gz
+            # Copy appstream media pool
+            mkdir -p media
+            cp -r "../../export/media/${dist}" "media/${dist}"
             set +x
         done
 
@@ -480,8 +483,6 @@ function repo_build {
         set +x
         popd
     done
-    # Copy appstream media pool
-    cp -r "../../export/media/pool" "media"
     popd
 
     # Remove previous release dir
