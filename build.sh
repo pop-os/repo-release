@@ -36,16 +36,6 @@ declare -A ARCHS_MAP=(
     [all]="amd64 arm64 i386"
 )
 
-# This map for 24.04 ignores failures of i386 and arm64 for noble
-declare -A ARCHS_MAP_NOBLE=(
-    [amd64]="amd64"
-    [arm64]=""
-    [i386]=""
-    [linux-any]="amd64"
-    [any]="amd64"
-    [all]="amd64"
-)
-
 GPG_FLAGS=(
     --batch --yes \
     --digest-algo sha512 \
@@ -163,13 +153,7 @@ function repo_sync {
             builds_for=$(cat build/mirror/${ARCHIVE}/pool/${dist}/${repo}/*/*.dsc | grep "^Arch")
             for arch in $builds_for; do
                 unset test_archs
-                if [ "$dist" == "noble" ]
-                then
-                    #TODO: remove this hack
-                    archs=( "${ARCHS_MAP_NOBLE[$arch]}" )
-                else
-                    archs=( "${ARCHS_MAP[$arch]}" )
-                fi
+                archs=( "${ARCHS_MAP[$arch]}" )
                 for a in "${archs[@]}"; do
                     test_archs+=($a)
                 done
