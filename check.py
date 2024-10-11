@@ -7,7 +7,12 @@ import repolib
 import sys
 import tempfile
 
-POP_ORIGINS = ["pop-os-release", "pop-os-staging-master"]
+POP_ORIGINS = [
+        # Origins for Pop!_OS
+        "pop-os-release", "pop-os-staging-master",
+        # Origins for PPA
+        "LP-PPA-system76-dev-stable", "LP-PPA-system76-dev-pre-stable",
+]
 SUITE = "jammy"
 
 def pop_origins(ver):
@@ -15,6 +20,11 @@ def pop_origins(ver):
 
 if len(sys.argv) >= 2:
     SUITE = sys.argv[1]
+
+dev = False
+if len(sys.argv) >= 3:
+    if sys.argv[2] == '--dev':
+        dev = True
 
 outdated = {}
 with tempfile.TemporaryDirectory() as rootdir:
@@ -37,12 +47,18 @@ with tempfile.TemporaryDirectory() as rootdir:
     add_source("ubuntu", ubuntu)
 
     pop_release = repolib.Source()
-    pop_release.load_from_data(["deb http://apt.pop-os.org/release " + SUITE + " main"])
+    if dev:
+        pop_release.load_from_data(["deb https://ppa.launchpadcontent.net/system76-dev/stable/ubuntu " + SUITE + " main"])
+    else:
+        pop_release.load_from_data(["deb http://apt.pop-os.org/release " + SUITE + " main"])
     pop_release.generate_default_ident()
     add_source("pop-os-release", pop_release)
 
     pop_staging_master = repolib.Source()
-    pop_staging_master.load_from_data(["deb http://apt.pop-os.org/staging/master " + SUITE + " main"])
+    if dev:
+        pop_staging_master.load_from_data(["deb https://ppa.launchpadcontent.net/system76-dev/pre-stable/ubuntu " + SUITE + " main"])
+    else:
+        pop_staging_master.load_from_data(["deb http://apt.pop-os.org/staging/master " + SUITE + " main"])
     pop_staging_master.generate_default_ident()
     add_source("pop-os-staging-master", pop_staging_master)
 
