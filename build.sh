@@ -4,7 +4,7 @@ set -e
 shopt -s nullglob
 
 # The archive to mirror
-ARCHIVE=apt.pop-os.org/staging/master
+ARCHIVE=apt.pop-os.org/staging/main
 # The components to mirror
 COMPONENTS=(main)
 # Distributions to mirror
