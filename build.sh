@@ -344,15 +344,15 @@ function repo_build {
 
         partial_pool="build/release.partial/pool/${dist}/${repo}/${commit}"
         mkdir -p "$(dirname "${partial_pool}")"
-        if [ "${release}" == "${version}" ]
+        if [ "${staging}" == "${version}" ]
         then
-            echo "    Version '${version}' already in release"
-            cp -a "${release_pool}" "${partial_pool}"
+            echo "    Copying '${version}' from staging to release"
+            cp -a "${staging_pool}" "${partial_pool}"
         else
-            if [ "${staging}" == "${version}" ]
+            if [ "${release}" == "${version}" ]
             then
-                echo "    Copying '${version}' from staging to release"
-                cp -a "${staging_pool}" "${partial_pool}"
+                echo "    Keeping '${version}' already in release"
+                cp -a "${release_pool}" "${partial_pool}"
             else
                 echo "    Failed to find '${version}' in staging or release" >&2
                 exit 1
