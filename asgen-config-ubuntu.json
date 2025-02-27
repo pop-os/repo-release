@@ -1,21 +1,21 @@
 {
-  "ProjectName": "Pop!_OS",
-  "ArchiveRoot": "./build/release.partial",
-  "MediaBaseUrl": "https://apt.pop-os.org/release/media",
+  "ProjectName": "Ubuntu",
+  "ArchiveRoot": "./build/release-ubuntu.partial",
+  "MediaBaseUrl": "https://apt.pop-os.org/release-ubuntu/media",
   "Backend": "debian",
   "Features": {
     "processDesktop": true
   },
   "Suites": {
-    "impish": {
-      "sections": ["main"],
-      "architectures": ["amd64", "arm64", "i386"]
-    },
     "jammy": {
       "sections": ["main"],
       "architectures": ["amd64", "arm64", "i386"]
     },
     "noble": {
+      "sections": ["main"],
+      "architectures": ["amd64", "arm64", "i386"]
+    },
+    "oracular": {
       "sections": ["main"],
       "architectures": ["amd64", "arm64", "i386"]
     }

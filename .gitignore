@@ -1,1 +1,3 @@
-build
+/build
+/db
+/export
