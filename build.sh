@@ -469,9 +469,9 @@ function repo_build {
         done
 
         pushd ../..
-        # Run appstream-generator on only four CPUs to prevent crashes
+        # Run appstream-generator on only one CPU to prevent crashes
         set -x
-        taskset --cpu-list 0-3 appstream-generator --config "${ASGENFILE}" run "${dist}"
+        taskset --cpu-list 0 appstream-generator --config "${ASGENFILE}" run "${dist}"
         set +x
         popd
         for comp in "${COMPONENTS[@]}"
