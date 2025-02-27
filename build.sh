@@ -45,6 +45,8 @@ DISTS=(
 )
 # Distributions to keep packages from, even if removed from staging
 DISTS_NO_REMOVE=()
+# appstream-generator config file
+ASGENFILE="asgen-config-ubuntu.json"
 # The release directory
 RELEASEDIR=release-ubuntu
 # The sync file
@@ -62,6 +64,8 @@ DISTS=(
 DISTS_NO_REMOVE=(
     impish
 )
+# appstream-generator config file
+ASGENFILE="asgen-config.json"
 # The release directory
 RELEASEDIR=release
 # The sync file
@@ -467,7 +471,7 @@ function repo_build {
         pushd ../..
         # Run appstream-generator on only four CPUs to prevent crashes
         set -x
-        taskset --cpu-list 0-3 appstream-generator run "${dist}"
+        taskset --cpu-list 0-3 appstream-generator --config "${ASGENFILE}" run "${dist}"
         set +x
         popd
         for comp in "${COMPONENTS[@]}"
@@ -477,7 +481,10 @@ function repo_build {
             gzip -dk "${dists_dir}/${comp}/dep11/"*.gz
             # Copy appstream media pool
             mkdir -p media
-            cp -r "../../export/media/${dist}" "media/${dist}"
+            if [ -d "../../export/media/${dist}" ]
+            then
+                cp -r "../../export/media/${dist}" "media/${dist}"
+            fi
             set +x
         done
 
