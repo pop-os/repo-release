@@ -18,6 +18,10 @@
     "oracular": {
       "sections": ["main"],
       "architectures": ["amd64", "arm64", "i386"]
+    },
+    "resolute": {
+      "sections": ["main"],
+      "architectures": ["amd64", "arm64", "i386"]
     }
   },
   "Icons":
