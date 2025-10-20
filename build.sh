@@ -42,6 +42,7 @@ DISTS=(
     jammy
     noble
     oracular
+    resolute
 )
 # Distributions to keep packages from, even if removed from staging
 DISTS_NO_REMOVE=()
@@ -59,6 +60,7 @@ DISTS=(
     impish
     jammy
     noble
+    resolute
 )
 # Distributions to keep packages from, even if removed from staging
 DISTS_NO_REMOVE=(
@@ -417,6 +419,9 @@ function repo_build {
                 ;;
             "noble")
                 dist_version="24.04"
+                ;;
+            "resolute")
+                dist_version="26.04"
                 ;;
             *)
                 echo "unknown dist '${dist}'" >&2
