@@ -503,8 +503,6 @@ resolute/v4l2loopback=a34615ccabd44bc5cd1b8ae1d0261d97b2193db4=0.15.1-1pop1~1756
 resolute/virtualbox-ext-pack=a7be025b07a91aff94d64e9eba9bc5fe754598ed=7.2.2-1pop1~1758579269~26.04~a7be025
 resolute/vulkan-loader=a41a7d6cd1881b1780fab6b4ce5135067a602941=1.3.280.0-1pop1~1722439676~26.04~a41a7d6
 resolute/wallpapers=20a9fdd1ed86aadfbbfcd55dc3d2d9eb8ae28e15=1.0.5~1750780843~26.04~20a9fdd
-resolute/wayland=dcd01e08b4a87f0d66fbd4693a4cd9805a472766=1.23.1-3pop1~1741692146~26.04~dcd01e0
-resolute/wayland-protocols=92c2e6ddf30973c0f668584e63132e7c3999848f=1.41-1pop1~1741707051~26.04~92c2e6d
 resolute/xdg-desktop-portal-cosmic=56da80f1b4bb8ae84dc4aee50c191bcd6b2ec118=0.1.0pop1~1760727526~26.04~56da80f
 resolute/xorgproto=c67bf4e1b876bd856ad0ec5a3d0bf1e23ab0ab59=2024.1-1pop1~1722455025~26.04~c67bf4e
 resolute/xwayland=00c1b9816cd95dba3b2f150dacad6e2eb8c2c7ad=2:24.1.2-1pop1~1727385267~26.04~00c1b98
