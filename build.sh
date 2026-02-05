@@ -77,10 +77,14 @@ fi
 # The components to mirror
 COMPONENTS=(main)
 # Architectures to mirror
-ARCHS=(
+BIN_ARCHS=(
     amd64
-    i386
     arm64
+    armhf
+    i386
+)
+ARCHS=(
+    "${BIN_ARCHS[@]}"
     src
 )
 # A mapping of debian architechtures to output folder names
@@ -89,10 +93,11 @@ ARCHS=(
 declare -A ARCHS_MAP=(
     [amd64]="amd64"
     [arm64]="arm64"
+    [armhf]="armhf"
     [i386]="i386"
     [linux-any]="amd64 arm64"
-    [any]="amd64 arm64 i386"
-    [all]="amd64 arm64 i386"
+    [any]="amd64 arm64 armhf i386"
+    [all]="amd64 arm64 armhf i386"
 )
 
 GPG_FLAGS=(
@@ -501,7 +506,7 @@ function repo_build {
             -o "APT::FTPArchive::Release::Suite=${dist}" \
             -o "APT::FTPArchive::Release::Version=${dist_version}" \
             -o "APT::FTPArchive::Release::Codename=${dist}" \
-            -o "APT::FTPArchive::Release::Architectures=${ARCHS[*]}" \
+            -o "APT::FTPArchive::Release::Architectures=${BIN_ARCHS[*]}" \
             -o "APT::FTPArchive::Release::Components=${comp}" \
             -o "APT::FTPArchive::Release::Description=Pop!_OS Release ${dist} ${dist_version}" \
             release . > "Release"
