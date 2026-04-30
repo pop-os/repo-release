@@ -35,6 +35,9 @@ done
 
 if [ "$ubuntu" = "1" ]
 then
+# Apt metadata
+APT_LABEL="System76 Ubuntu Release"
+APT_ORIGIN="system76-ubuntu-release"
 # The archive to mirror
 ARCHIVE=apt.pop-os.org/staging-ubuntu/master
 # Distributions to mirror
@@ -53,6 +56,9 @@ RELEASEDIR=release-ubuntu
 # The sync file
 SYNCFILE=sync-ubuntu
 else
+# Apt metadata
+APT_LABEL="Pop!_OS Release"
+APT_ORIGIN="pop-os-release"
 # The archive to mirror
 ARCHIVE=apt.pop-os.org/staging/master
 # Distributions to mirror
@@ -457,8 +463,8 @@ function repo_build {
                 echo "Archive: ${dist}" > "${source_dir}/Release"
                 echo "Version: ${dist_version}" >> "${source_dir}/Release"
                 echo "Component: ${comp}" >> "${source_dir}/Release"
-                echo "Origin: pop-os-release" >> "${source_dir}/Release"
-                echo "Label: Pop!_OS Release" >> "${source_dir}/Release"
+                echo "Origin: ${APT_ORIGIN}" >> "${source_dir}/Release"
+                echo "Label: ${APT_LABEL}" >> "${source_dir}/Release"
                 echo "Architecture: source" >> "${source_dir}/Release"
             else
                 binary_dir="${comp_dir}/binary-${arch}"
@@ -472,8 +478,8 @@ function repo_build {
                 echo "Archive: ${dist}" > "${binary_dir}/Release"
                 echo "Version: ${dist_version}" >> "${binary_dir}/Release"
                 echo "Component: ${comp}" >> "${binary_dir}/Release"
-                echo "Origin: pop-os-release" >> "${binary_dir}/Release"
-                echo "Label: Pop!_OS Release" >> "${binary_dir}/Release"
+                echo "Origin: ${APT_ORIGIN}" >> "${binary_dir}/Release"
+                echo "Label: ${APT_LABEL}" >> "${binary_dir}/Release"
                 echo "Architecture: ${arch}" >> "${binary_dir}/Release"
             fi
         done
@@ -501,14 +507,14 @@ function repo_build {
         pushd "${dists_dir}"
         set -x
         apt-ftparchive \
-            -o "APT::FTPArchive::Release::Origin=pop-os-release" \
-            -o "APT::FTPArchive::Release::Label=Pop!_OS Release" \
+            -o "APT::FTPArchive::Release::Origin=${APT_ORIGIN}" \
+            -o "APT::FTPArchive::Release::Label=${APT_LABEL}" \
             -o "APT::FTPArchive::Release::Suite=${dist}" \
             -o "APT::FTPArchive::Release::Version=${dist_version}" \
             -o "APT::FTPArchive::Release::Codename=${dist}" \
             -o "APT::FTPArchive::Release::Architectures=${BIN_ARCHS[*]}" \
             -o "APT::FTPArchive::Release::Components=${comp}" \
-            -o "APT::FTPArchive::Release::Description=Pop!_OS Release ${dist} ${dist_version}" \
+            -o "APT::FTPArchive::Release::Description=${APT_LABEL} ${dist} ${dist_version}" \
             release . > "Release"
         gpg --clearsign "${GPG_FLAGS[@]}" -o "InRelease" "Release"
         gpg -abs "${GPG_FLAGS[@]}" -o "Release.gpg" "Release"
