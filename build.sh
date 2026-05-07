@@ -44,7 +44,7 @@ ARCHIVE=apt.pop-os.org/staging-ubuntu/master
 DISTS=(
     jammy
     noble
-    oracular
+    questing
     resolute
 )
 # Distributions to keep packages from, even if removed from staging

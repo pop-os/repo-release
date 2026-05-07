@@ -15,7 +15,7 @@
       "sections": ["main"],
       "architectures": ["amd64", "arm64", "i386"]
     },
-    "oracular": {
+    "questing": {
       "sections": ["main"],
       "architectures": ["amd64", "arm64", "i386"]
     },
