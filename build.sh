@@ -431,6 +431,9 @@ function repo_build {
             "noble")
                 dist_version="24.04"
                 ;;
+            "questing")
+                dist_version="25.10"
+                ;;
             "resolute")
                 dist_version="26.04"
                 ;;
