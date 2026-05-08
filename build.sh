@@ -496,8 +496,12 @@ function repo_build {
         for comp in "${COMPONENTS[@]}"
         do
             set -x
-            cp -r "../../export/data/${dist}/${comp}" "${dists_dir}/${comp}/dep11"
-            gzip -dk "${dists_dir}/${comp}/dep11/"*.gz
+            # Copy appstream yml data
+            if [ -d "../../export/data/${dist}/${comp}" ]
+            then
+                cp -r "../../export/data/${dist}/${comp}" "${dists_dir}/${comp}/dep11"
+                gzip -dk "${dists_dir}/${comp}/dep11/"*.gz
+            fi
             # Copy appstream media pool
             mkdir -p media
             if [ -d "../../export/media/${dist}" ]
